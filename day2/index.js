@@ -1,4 +1,5 @@
 import { createInput } from "./createInput.js";
+import { isDecreasingSequence, isIncreasingSequence, isStrictlyMonotonicSequence } from "./validation.js";
 
 async function countSafeReports() {
   const data = await createInput();
@@ -15,33 +16,26 @@ async function countSafeReports() {
   //Any two adjacent levels differ by at least one and at most three.
   //TODO  check if fn can exceed array, fix isStrictlyMonotonic
 
+  // function checkIfArrayIsUnique(myArray) {
+  //   return myArray.length === new Set(myArray).size;
+  // }
+
   const safeMap = new Map();
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < mockData.length; i++) {
     let isSafe = false;
-    const level = data[i];
+    const level = mockData[i];
 
-    const isIncreasing = level.every((currentElem, index, arr) => {
-      return (
-        index === 0 ||
-        (currentElem > arr[index - 1] && (index + 1 >= arr.length || Math.abs(currentElem - arr[index + 1]) <= 3))
-      );
-    });
-    const isDecreasing = level.every((currentElem, index, arr) => {
-      return (
-        index === 0 ||
-        (currentElem < arr[index - 1] && (index + 1 >= arr.length || Math.abs(currentElem - arr[index + 1]) <= 3))
-      );
-    });
+    const isDecreasing = isDecreasingSequence(level);
+    const isStrictlyMonotonic = isStrictlyMonotonicSequence(level);
+    const isIncreasing = isIncreasingSequence(level);
 
-    // const isStrictlyMonotonic = level.every((currentElem, index, arr) => currentElem !== arr[index + 1]);
-
-    isSafe = isDecreasing || isIncreasing;
+    isSafe = isStrictlyMonotonic && (isDecreasing || isIncreasing);
 
     if (isSafe) {
       safeMap.set(`${level}`, isSafe);
     }
   }
-  // console.log("safeMap", safeMap);
+  console.log("safeMap", safeMap);
 
   const filteredMap = new Map(Array.from(safeMap).filter(([key, value]) => value === true));
   console.log("filteredMap", filteredMap.size);
