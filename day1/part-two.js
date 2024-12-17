@@ -6,25 +6,17 @@ async function calculateDistance() {
   const sortedLeftRow = parsedData.map((line) => line[0]);
   const sortedRightRow = parsedData.map((line) => line[1]);
 
-  const similarityArr = [];
-  for (const [index, value] of sortedLeftRow.entries()) {
-    const allMatchesNum = sortedRightRow.filter((num) => num === value);
-    if (sortedRightRow.includes(value)) {
-      similarityArr.push({
-        value,
-        numberOf: allMatchesNum.length,
-      });
-    } else {
-      similarityArr.push({
-        value,
-        numberOf: 0,
-      });
-    }
+  const countMap = {};
+  for (const num of sortedRightRow) {
+    countMap[num] = (countMap[num] || 0) + 1;
   }
 
-  let result = similarityArr.reduce((acc, curr) => {
-    return (acc += curr.value * curr.numberOf);
-  }, 0);
+  let result = 0;
+
+  for (const value of sortedLeftRow) {
+    const count = countMap[value] || 0;
+    result += value * count;
+  }
 
   console.log("result", result);
 }
