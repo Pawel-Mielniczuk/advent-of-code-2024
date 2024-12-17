@@ -13,11 +13,12 @@ async function countSafeReports() {
   ];
   //The levels are either all increasing or all decreasing.
   //Any two adjacent levels differ by at least one and at most three.
+  //TODO  check if fn can exceed array, fix isStrictlyMonotonic
 
   const safeMap = new Map();
-  for (let i = 0; i < mockData.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     let isSafe = false;
-    const level = mockData[i];
+    const level = data[i];
 
     const isIncreasing = level.every((currentElem, index, arr) => {
       return (
@@ -32,23 +33,15 @@ async function countSafeReports() {
       );
     });
 
-    for (let j = 0; j < level.length; j++) {
-      const currentElem = level[j];
-      const nextElem = level[j + 1];
+    // const isStrictlyMonotonic = level.every((currentElem, index, arr) => currentElem !== arr[index + 1]);
 
-      if (isDecreasing || isIncreasing) {
-        isSafe = true;
-        break;
-      } else {
-        isSafe = false;
-      }
-    }
+    isSafe = isDecreasing || isIncreasing;
+
     if (isSafe) {
-      safeMap.set(`level ${mockData[i]}`, isSafe);
-    } else {
-      safeMap.set(`level ${mockData[i]}`, isSafe);
+      safeMap.set(`${level}`, isSafe);
     }
   }
+  // console.log("safeMap", safeMap);
 
   const filteredMap = new Map(Array.from(safeMap).filter(([key, value]) => value === true));
   console.log("filteredMap", filteredMap.size);
