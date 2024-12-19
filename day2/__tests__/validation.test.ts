@@ -1,31 +1,25 @@
 import { describe, it, expect } from "vitest";
-import { isDecreasingSequence, isIncreasingSequence, isStrictlyMonotonicSequence } from "../validation.js";
-
-// 20 21 22 19 20 22 23 22
-// 25 26 27 29 31 34 33 33
-// 54 57 59 61 58 59 60 64
-// 17 19 20 22 25 26 24 31
-// 86 88 90 91 92 92 93 95
+import { isIncreasingSequence, isStrictlyMonotonicSequence } from "../validation.ts";
 
 describe("isStrictlyMonotonicSequence", () => {
   it("returns true for strictly monotonic sequence with increasing numbers", () => {
-    const result = isStrictlyMonotonicSequence([17, 19, 20, 22, 25, 26, 27, 31]);
+    const result: boolean = isStrictlyMonotonicSequence([17, 19, 20, 22, 25, 26, 27, 31]);
     expect(result).toBe(true);
   });
 
   it("returns true for strictly monotonic sequence with decreasing numbers", () => {
-    const result = isStrictlyMonotonicSequence([93, 89, 87, 84, 83, 79, 76, 75]);
-    console.log("result", result);
+    const result: boolean = isStrictlyMonotonicSequence([93, 89, 87, 84, 83, 79, 76, 75]);
+
     expect(result).toBe(true);
   });
 
   it("returns false for a sequence with consecutive identical numbers at the beginning of the array", () => {
-    const result = isStrictlyMonotonicSequence([66, 66, 64, 62, 61, 56, 56]);
+    const result: boolean = isStrictlyMonotonicSequence([66, 66, 64, 62, 61, 56, 56]);
     expect(result).toBe(false);
   });
 
   it("returns false for a sequence with consecutive identical numbers at the end of the array", () => {
-    const result = isStrictlyMonotonicSequence([22, 45, 64, 67, 69, 56, 56]);
+    const result: boolean = isStrictlyMonotonicSequence([22, 45, 64, 67, 69, 56, 56]);
     expect(result).toBe(false);
   });
 

@@ -2,9 +2,10 @@ import { createInput } from "./createInput.js";
 import { isDecreasingSequence, isIncreasingSequence, isStrictlyMonotonicSequence } from "./validation.js";
 
 async function countSafeReports() {
-  const data = await createInput();
+  const data: number[][] = await createInput();
 
-  const safeMap = new Map();
+  const safeMap: Map<string, boolean> = new Map();
+
   for (let i = 0; i < data.length; i++) {
     let isSafe = false;
     const level = data[i];

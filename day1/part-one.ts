@@ -1,11 +1,11 @@
 // import fs from "fs/promises";
-import { createInput } from "./createInput.js";
+import { createInput } from "./createInput.ts";
 
 async function calculateDistance() {
-  const parsedData = await createInput();
+  const parsedData: number[][] = await createInput();
 
-  const sortedLeftRow = parsedData.map((line) => line[0]).sort((a, b) => a - b);
-  const sortedRightRow = parsedData.map((line) => line[1]).sort((a, b) => a - b);
+  const sortedLeftRow = parsedData.map((line: number[]) => line[0]).sort((a, b) => a - b);
+  const sortedRightRow = parsedData.map((line: number[]) => line[1]).sort((a, b) => a - b);
 
   let calculatedDistance = 0;
 

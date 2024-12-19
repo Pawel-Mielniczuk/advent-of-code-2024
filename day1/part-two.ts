@@ -1,10 +1,10 @@
-import { createInput } from "./createInput.js";
+import { createInput } from "./createInput.ts";
 
 async function calculateDistance() {
-  const parsedData = await createInput();
+  const parsedData: number[][] = await createInput();
 
-  const sortedLeftRow = parsedData.map((line) => line[0]);
-  const sortedRightRow = parsedData.map((line) => line[1]);
+  const sortedLeftRow: number[] = parsedData.map((line) => line[0]);
+  const sortedRightRow: number[] = parsedData.map((line) => line[1]);
 
   const countMap = {};
   for (const num of sortedRightRow) {

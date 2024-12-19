@@ -1,4 +1,4 @@
-export function isIncreasingSequence(array) {
+export function isIncreasingSequence(array: number[]): boolean {
   return array.every((currentElem, index, self) => {
     return (
       index === 0 ||
@@ -10,7 +10,7 @@ export function isIncreasingSequence(array) {
   });
 }
 
-export function isDecreasingSequence(array) {
+export function isDecreasingSequence(array: number[]): boolean {
   return array.every((currentElem, index, self) => {
     return (
       index === 0 ||
@@ -20,7 +20,7 @@ export function isDecreasingSequence(array) {
     );
   });
 }
-export function isStrictlyMonotonicSequence(array) {
+export function isStrictlyMonotonicSequence(array: number[]): boolean {
   const hasIdenticalConsecutiveNum = array.every(
     (number, index) => index === array.length - 1 || number !== array[index + 1]
   );
