@@ -62,8 +62,21 @@ describe("isDecreasingSequence", () => {
 });
 
 describe("makeReportSafeByRemovingOneLevel", () => {
-  it("can make report save by removing level", () => {
+  it("should return arr which was passed because length < 3", () => {
     const res = makeReportSafeByRemovingOneLevel([1, 2]);
     expect(res).toStrictEqual([1, 2]);
+  });
+
+  it("should return [8,6,4,1] and make report safe by removing third level", () => {
+    const res = makeReportSafeByRemovingOneLevel([8, 6, 4, 4, 1]);
+    expect(res).toStrictEqual([8, 6, 4, 1]);
+  });
+  it("should return [1,2,4,5] and make report safe by removing second level", () => {
+    const res = makeReportSafeByRemovingOneLevel([1, 3, 2, 4, 5]);
+    expect(res).toStrictEqual([1, 2, 4, 5]);
+  });
+  it("should return null because sequence is not increasing or decreasing", () => {
+    const res = makeReportSafeByRemovingOneLevel([3, 1, 4, 2]);
+    expect(res).toBe(null);
   });
 });
