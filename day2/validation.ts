@@ -35,22 +35,25 @@ export function makeReportSafeByRemovingOneLevel(array: number[]): number[] | nu
     return array;
   }
 
-  let isSafe = false;
-  let tempArray = [...array];
+  for (let index = 0; index < array.length; index++) {
+    const arrMinusOne = array.filter((_, i) => i !== index);
 
-  for (const [index, value] of array.entries()) {
-    tempArray.splice(index, 1);
+    const isIncreasing = isIncreasingSequence(arrMinusOne);
+    const isDecreasing = isDecreasingSequence(arrMinusOne);
+    const strictlyMonotonicSequence = isStrictlyMonotonicSequence(arrMinusOne);
 
-    const isIncreasing = isIncreasingSequence(tempArray);
-    const isDecreasing = isDecreasingSequence(tempArray);
-    const strictlyMonotonicSequence = isStrictlyMonotonicSequence(tempArray);
-
-    isSafe = strictlyMonotonicSequence && (isDecreasing || isIncreasing);
-    if (isSafe) {
-      return tempArray;
-    } else {
-      tempArray.splice(index, 0, value);
+    if (strictlyMonotonicSequence && (isDecreasing || isIncreasing)) {
+      return arrMinusOne;
     }
   }
   return null;
+}
+
+export function processNotSafeReports(notSafeReports: number[][], makeSafeMap: Map<string, boolean>): void {
+  notSafeReports.forEach((innerArr) => {
+    const res = makeReportSafeByRemovingOneLevel(innerArr);
+    if (res !== null) {
+      makeSafeMap.set(`${res}`, true);
+    }
+  });
 }

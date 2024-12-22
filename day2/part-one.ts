@@ -3,45 +3,50 @@ import {
   isDecreasingSequence,
   isIncreasingSequence,
   isStrictlyMonotonicSequence,
-  makeReportSafeByRemovingOneLevel,
+  processNotSafeReports,
 } from "./validation.js";
 
 async function countSafeReports() {
   const data: number[][] = await createInput();
 
-  const safeMap: Map<string, boolean> = new Map();
-  const makeSaveMap = new Map();
-  const notSafeMap = new Map();
+  const report: Map<string, boolean> = new Map();
+  const makeSafeMap = new Map<string, boolean>();
 
-  for (let i = 0; i < data.length; i++) {
-    let isSafe = false;
-    const level = data[i];
+  processReports(data, report);
 
+  const { safeReports, notSafeReports } = filterReports(report);
+
+  processNotSafeReports(notSafeReports, makeSafeMap);
+
+  const result = makeSafeMap.size + safeReports.length;
+  console.log(result);
+}
+
+function processReports(data: number[][], report: Map<string, boolean>) {
+  data.forEach((level) => {
     const isDecreasing = isDecreasingSequence(level);
     const isStrictlyMonotonic = isStrictlyMonotonicSequence(level);
     const isIncreasing = isIncreasingSequence(level);
 
-    isSafe = isStrictlyMonotonic && (isDecreasing || isIncreasing);
+    const isSafe = isStrictlyMonotonic && (isDecreasing || isIncreasing);
+    report.set(`${level}`, isSafe);
+  });
+}
 
-    if (isSafe) {
-      safeMap.set(`${level}`, isSafe);
+function filterReports(report: Map<string, boolean>) {
+  const safeReports: number[][] = [];
+  const notSafeReports: number[][] = [];
+
+  report.forEach((value, key) => {
+    const reportArray = key.split(",").map(Number);
+    if (value) {
+      safeReports.push(reportArray);
     } else {
-      notSafeMap.set(`${level}`, false);
+      notSafeReports.push(reportArray);
     }
-  }
+  });
 
-  const safeReportArr = Array.from(notSafeMap.keys()).map((key) => key.split(",").map(Number));
-
-  for (const [index, innerArr] of safeReportArr.entries()) {
-    const res = makeReportSafeByRemovingOneLevel(innerArr);
-    if (res !== null) {
-      makeSaveMap.set(`${res}`, true);
-    }
-  }
-
-  const filteredMap = new Map(Array.from(safeMap).filter(([key, value]) => value === true));
-  const safeReport = new Map(Array.from(makeSaveMap).filter(([key, value]) => value === true));
-  console.log(safeReport.size + filteredMap.size);
+  return { safeReports, notSafeReports };
 }
 
 countSafeReports();
