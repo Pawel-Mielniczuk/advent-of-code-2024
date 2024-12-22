@@ -22,7 +22,7 @@ async function countSafeReports() {
   console.log(result);
 }
 
-function processReports(data: number[][], report: Map<string, boolean>) {
+function processReports(data: number[][], report: Map<string, boolean>): void {
   data.forEach((level) => {
     const isDecreasing = isDecreasingSequence(level);
     const isStrictlyMonotonic = isStrictlyMonotonicSequence(level);
@@ -33,7 +33,12 @@ function processReports(data: number[][], report: Map<string, boolean>) {
   });
 }
 
-function filterReports(report: Map<string, boolean>) {
+type FilteredReports = {
+  safeReports: number[][];
+  notSafeReports: number[][];
+};
+
+function filterReports(report: Map<string, boolean>): FilteredReports {
   const safeReports: number[][] = [];
   const notSafeReports: number[][] = [];
 
