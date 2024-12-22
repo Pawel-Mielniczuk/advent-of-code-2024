@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isIncreasingSequence, isStrictlyMonotonicSequence } from "../validation.ts";
+import { isIncreasingSequence, isStrictlyMonotonicSequence, canReportMakeSafe } from "../validation.ts";
 
 describe("isStrictlyMonotonicSequence", () => {
   it("returns true for strictly monotonic sequence with increasing numbers", () => {
@@ -58,5 +58,12 @@ describe("isDecreasingSequence", () => {
   it("returns false for a two-element array with increasing numbers with difference > 3 ", () => {
     const result = isIncreasingSequence([77, 89]);
     expect(result).toBe(false);
+  });
+});
+
+describe("canReportMakeSafe", () => {
+  it("can make report save by removing level", () => {
+    const res = canReportMakeSafe([1, 2]);
+    expect(res).toStrictEqual([1, 2]);
   });
 });

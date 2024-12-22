@@ -29,3 +29,28 @@ export function isStrictlyMonotonicSequence(array: number[]): boolean {
 
   return hasIdenticalConsecutiveNum && (isDecreasing || isIncreasing);
 }
+
+export function makeReportSafeByRemovingOneLevel(array: number[]): number[] | null {
+  if (array.length < 3) {
+    return array;
+  }
+
+  let isSafe = false;
+  let tempArray = [...array];
+
+  for (const [index, value] of array.entries()) {
+    tempArray.splice(index, 1);
+
+    const isIncreasing = isIncreasingSequence(tempArray);
+    const isDecreasing = isDecreasingSequence(tempArray);
+    const strictlyMonotonicSequence = isStrictlyMonotonicSequence(tempArray);
+
+    isSafe = strictlyMonotonicSequence && (isDecreasing || isIncreasing);
+    if (isSafe) {
+      return tempArray;
+    } else {
+      tempArray.splice(index, 0, value);
+    }
+  }
+  return null;
+}
