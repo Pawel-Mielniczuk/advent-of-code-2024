@@ -41,7 +41,7 @@ export function sumProducts(products: number[]): number {
 }
 
 async function createInput(): Promise<string> {
-  return await fs.readFile("input.txt", "utf8");
+  return await fs.readFile("./day3/input.txt", "utf8");
 }
 
 async function scanUncorruptedMemory(): Promise<void> {
