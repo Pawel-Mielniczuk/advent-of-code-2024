@@ -7,18 +7,18 @@ async function createInput(): Promise<string> {
 async function scanUncorruptedMemory(): Promise<void> {
   const data = await createInput();
 
-  const matches: string[] = data.match(/mul\(\d+,\d+\)/g) || [];
+  const multiplicationExpressions: string[] = data.match(/mul\(\d+,\d+\)/g) || [];
 
   let result = 0;
 
-  const numbers: number[][] = matches.map((elem) => {
+  const parsedNumbers: number[][] = multiplicationExpressions.map((elem) => {
     const item = elem.match(/\d+/g)?.map((num) => Number(num)) ?? [];
     return item;
   });
 
-  const numWithSum = numbers.map((arr: number[]) => arr[0] * arr[1]);
+  const products = parsedNumbers.map((operandPair: number[]) => operandPair[0] * operandPair[1]);
 
-  result = numWithSum.reduce((acc: number, curr: number) => {
+  result = products.reduce((acc: number, curr: number) => {
     return acc + curr;
   });
 
