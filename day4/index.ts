@@ -4,7 +4,7 @@ async function createInput(): Promise<string> {
   return fs.readFile("./input.txt", "utf8");
 }
 
-function countOccurrences(grid: string[][], word: string): number {
+export function countOccurrences(grid: string[][], word: string): number {
   let count = 0;
   const rows = grid.length;
   const cols = grid[0].length;
@@ -68,7 +68,7 @@ function isMasOrSam(word: string): boolean {
   return word === "MAS" || word === "SAM";
 }
 
-function getXMASCount(grid: string[][]): number {
+export function getXMASCount(grid: string[][]): number {
   const rows = grid.length;
   const cols = grid[0].length;
   let count = 0;
