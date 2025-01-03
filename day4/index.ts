@@ -64,6 +64,34 @@ function countOccurrences(grid: string[][], word: string): number {
   return count;
 }
 
+function isMasOrSam(word: string): boolean {
+  return word === "MAS" || word === "SAM";
+}
+
+function getXMASCount(grid: string[][]): number {
+  const rows = grid.length;
+  const cols = grid[0].length;
+  let count = 0;
+
+  for (let i = 1; i < rows - 1; i++) {
+    for (let j = 1; j < cols - 1; j++) {
+      const topLeft = grid[i - 1][j - 1];
+      const center = grid[i][j];
+      const topRight = grid[i - 1][j + 1];
+      const bottomLeft = grid[i + 1][j - 1];
+      const bottomRight = grid[i + 1][j + 1];
+
+      const diagonal1 = topLeft + center + bottomRight;
+      const diagonal2 = topRight + center + bottomLeft;
+
+      if (isMasOrSam(diagonal1) && isMasOrSam(diagonal2)) {
+        count++;
+      }
+    }
+  }
+  return count;
+}
+
 async function findSentenceInGrid() {
   try {
     const data = await createInput();
@@ -75,8 +103,10 @@ async function findSentenceInGrid() {
     const xmasCount = countOccurrences(grid, "XMAS");
     const samxCount = countOccurrences(grid, "SAMX");
     const totalCount = xmasCount + samxCount;
+    const xMASCount = getXMASCount(grid);
 
-    console.log("totalCount", totalCount);
+    console.log("part 1 result", totalCount);
+    console.log("part 2 result", xMASCount);
   } catch (error) {
     console.error("An error", error);
   }
